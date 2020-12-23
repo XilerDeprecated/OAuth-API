@@ -1,4 +1,4 @@
-use redis::{Commands, ToRedisArgs, RedisError};
+use redis::{Commands, ToRedisArgs, RedisResult};
 
 use crate::types::code::OAuthCode;
 use crate::types::status::RequestStatus;
@@ -15,10 +15,12 @@ impl_web! {
             match redis::Client::open("redis://127.0.0.1:6379/") {
                 Ok(client) => match client.get_connection() {
                     Ok(mut conn) => {
-                        let data: Result<String, RedisError> = conn.get(body.code.to_redis_args());
+                        let data: RedisResult<String> = conn.get(body.code.to_redis_args());
                         match data {
                             Ok(user) => {
                                 let _ : () = conn.del(&body.code).unwrap();
+
+                                println!("Fetching data for {}", user);
 
                                 // TODO: FETCH FROM DB
                                 Ok(TokenResponse {
@@ -60,26 +62,6 @@ impl_web! {
                     data: None
                 })
             }
-        }
-
-        #[post("/token/revoke")]
-        #[content_type("application/json")]
-        fn revoke_token(&self, body: Token) -> Result<TokenResponse, ()> {
-            // TODO: FETCH FROM DB & GENERATE NEW TOKEN
-            println!("Revoking token: {}", body.token);
-            Ok(TokenResponse {
-                status: RequestStatus {
-                    message: "Successfully created a new token",
-                    code: 0
-                },
-                data: Some(TokenData {
-                    access_token: "4eabde45ff5626562cf8e9dc7c0abf8f.9c8d9442383b05476310e0e#66c66b94",
-                    app: "83ed1",
-                    refresh_token: "492e50f22d0941c54afea8465fe3813f.72f316244ee6fe236925c36#a2a9ffae",
-                    token_type: 1,
-                    expires_in: 604800,
-                }),
-            })
         }
     }
 }

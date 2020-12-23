@@ -1,5 +1,5 @@
 use rand::{distributions::Alphanumeric, Rng};
-use redis::Commands;
+use redis::{Commands, RedisResult};
 
 use crate::types::code::{OAuthCode, TokenResponse};
 use crate::types::status::RequestStatus;
@@ -27,20 +27,45 @@ impl_web! {
             let c: String = rand::thread_rng().sample_iter(&Alphanumeric).take(64).map(char::from).collect();
             let code: String = (&c).to_lowercase();
 
-            // TODO: MAKE THIS MORE SAFE WHEN REDIS IS DOWN
-            let redis_client = redis::Client::open("redis://127.0.0.1:6379/").unwrap();
-            let mut conn = redis_client.get_connection().unwrap();
-            let _ : () = conn.set_ex(&code, &body.user, 300).unwrap();
-
-            Ok(TokenResponse {
-                status: RequestStatus {
-                    message: "Successfully generated an auth code",
-                    code: 201
+            match redis::Client::open("redis://127.0.0.1:6379/") {
+                Ok(client) => match client.get_connection() {
+                    Ok(mut conn) => {
+                        let set: RedisResult<String> = conn.set_ex(&code, &body.user, 300);
+                        match set {
+                            Ok(_) => Ok(TokenResponse {
+                                status: RequestStatus {
+                                    message: "Successfully generated an auth code",
+                                    code: 201
+                                },
+                                data: Some(OAuthCode {
+                                    code: code
+                                })
+                            }),
+                            Err(_) => Ok(TokenResponse {
+                                status: RequestStatus {
+                                    message: "Could not create code",
+                                    code: 500
+                                },
+                                data: None
+                            })
+                        }
+                    }
+                    Err(_) => Ok(TokenResponse {
+                        status: RequestStatus {
+                            message: "Could not create connection with redis database",
+                            code: 500
+                        },
+                        data: None
+                    })
                 },
-                data: Some(OAuthCode {
-                    code: code
+                Err(_) => Ok(TokenResponse {
+                    status: RequestStatus {
+                        message: "Could not create redis client",
+                        code: 500
+                    },
+                    data: None
                 })
-            })
+            }
         }
     }
 }

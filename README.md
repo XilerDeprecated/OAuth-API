@@ -1,3 +1,3 @@
 `/oauth/token`
-`/oauth/token/revoke`
+`/oauth/code`
 
