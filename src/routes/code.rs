@@ -31,11 +31,11 @@ impl_web! {
             match redis::Client::open("redis://127.0.0.1:6379/") {
                 Ok(client) => match client.get_connection() {
                     Ok(mut conn) => {
-                        let pass = match env::var("REDIS_PASS") {
-                            Ok(val) => val,
-                            Err(_) => "".to_string(),
-                        };
-                        let _: () = redis::cmd("AUTH").arg(pass).query(&mut conn).unwrap();
+                        // let pass = match env::var("REDIS_PASS") {
+                        //     Ok(val) => val,
+                        //     Err(_) => "".to_string(),
+                        // };
+                        // let _: () = redis::cmd("AUTH").arg(pass).query(&mut conn).unwrap();
                         let set: RedisResult<String> = conn.set_ex(&code, &body.user, 300);
                         match set {
                             Ok(_) => Ok(TokenResponse {
