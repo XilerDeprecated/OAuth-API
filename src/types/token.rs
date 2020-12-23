@@ -1,7 +1,13 @@
 #[derive(Debug, Extract)]
 pub struct Token {
     pub token: String,
-    pub app: Option<String>,
+}
+
+#[derive(Debug, Extract)]
+pub struct CodeToken {
+    pub token: String,
+    pub app: String,
+    pub user: String,
 }
 
 #[derive(Serialize, Debug)]
@@ -17,7 +23,7 @@ pub struct TokenData {
 #[web(status = "201")]
 pub struct TokenResponse {
     pub status: super::super::types::status::RequestStatus,
-    pub data: TokenData,
+    pub data: Option<TokenData>,
 }
 
 #[derive(Debug, Response)]
