@@ -26,6 +26,7 @@ pub fn main() {
     println!("Listening on http://{}", addr);
 
     ServiceBuilder::new()
+        .resource(Root)
         .resource(routes::token::TokenResource)
         .resource(routes::code::CodeResource)
         .run(&addr)
