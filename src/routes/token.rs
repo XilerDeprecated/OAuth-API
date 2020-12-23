@@ -1,4 +1,5 @@
 use super::super::types::token::*;
+use super::super::types::code::OAuthCode;
 use super::super::types::status::RequestStatus;
 
 #[derive(Clone, Debug)]

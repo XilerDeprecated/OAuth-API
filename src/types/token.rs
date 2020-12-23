@@ -1,9 +1,4 @@
 #[derive(Debug, Extract)]
-pub struct OAuthCode {
-    pub code: String,
-}
-
-#[derive(Debug, Extract)]
 pub struct Token {
     pub token: String,
 }

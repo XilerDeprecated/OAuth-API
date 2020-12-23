@@ -13,6 +13,7 @@ pub fn main() {
 
     ServiceBuilder::new()
         .resource(routes::token::TokenResource)
+        .resource(routes::code::CodeResource)
         .run(&addr)
         .unwrap()
 }
