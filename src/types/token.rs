@@ -1,6 +1,7 @@
 #[derive(Debug, Extract)]
 pub struct Token {
     pub token: String,
+    pub app: Option<String>,
 }
 
 #[derive(Serialize, Debug)]
