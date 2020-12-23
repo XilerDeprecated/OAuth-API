@@ -9,6 +9,18 @@ mod routes;
 mod types;
 mod utils;
 
+#[derive(Debug, Clone)]
+struct Root;
+
+impl_web! {
+    impl Root {
+        #[post("/")]
+        fn root(&self) -> Result<&'static str, ()> {
+            Ok("Working properly")
+        }
+    }
+}
+
 pub fn main() {
     let addr = "127.0.0.1:25580".parse().expect("Port already in use");
     println!("Listening on http://{}", addr);
