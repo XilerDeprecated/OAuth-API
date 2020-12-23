@@ -1,4 +1,3 @@
-use std::env;
 use rand::{distributions::Alphanumeric, Rng};
 use redis::{Commands, RedisResult};
 

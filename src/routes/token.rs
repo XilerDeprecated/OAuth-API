@@ -1,4 +1,3 @@
-use std::env;
 use redis::{Commands, ToRedisArgs, RedisResult};
 
 use crate::types::code::OAuthCode;
