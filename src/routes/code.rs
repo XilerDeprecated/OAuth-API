@@ -1,6 +1,6 @@
 use super::super::types::code::{OAuthCode, TokenResponse};
 use super::super::types::token::Token;
-use super::super::types::status::RequestStatus;
+use super::super::types::status::{RequestStatus};
 
 #[derive(Clone, Debug)]
 pub struct CodeResource;
@@ -9,9 +9,6 @@ impl_web! {
     impl CodeResource {
         #[post("/code")]
         #[content_type("application/json")]
-        // #[web(cors(allow-headers = "authorization, cache-control, range"))]
-        // #[web(cors(expose-headers = "content-length, content-type"))]
-        // #[web(cors(allow-credentials = true))]
         fn get_code(&self, body: Token) -> Result<TokenResponse, ()> {
             // TODO: CREATE IN REDIS DB
             println!("Creating code for {}", &body.token);
