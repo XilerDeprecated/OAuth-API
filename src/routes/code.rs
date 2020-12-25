@@ -7,14 +7,16 @@ use crate::types::token::CodeToken;
 use crate::utils::request::is_valid_code_request;
 
 #[derive(Clone, Debug)]
-pub struct CodeResource;
+pub struct CodeResource {
+    pub(crate) connection_string: String,
+}
 
 impl_web! {
     impl CodeResource {
         #[post("/code")]
         #[content_type("application/json")]
         fn get_code(&self, body: CodeToken) -> Result<TokenResponse, ()> {
-            if !is_valid_code_request(&body) {
+            if !is_valid_code_request(&body, &self.connection_string) {
                 return Ok(TokenResponse {
                     status: RequestStatus {
                         message: "Invalid request parameters values",
