@@ -14,3 +14,4 @@ redis = "0.18.0"
 rand = "0.8.0"
 uuid = "0.8.1"
 postgres = { version = "0.18.1", features = ["with-uuid-0_8"] }
+dotenv = "0.15.0"

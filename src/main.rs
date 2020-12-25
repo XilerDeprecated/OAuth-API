@@ -3,7 +3,9 @@ extern crate serde_json;
 #[macro_use]
 extern crate tower_web;
 
+use dotenv::dotenv;
 use tower_web::ServiceBuilder;
+use std::env;
 
 mod routes;
 mod types;
@@ -21,15 +23,20 @@ impl_web! {
     }
 }
 
+fn get_env_var(key: &str) -> String {
+    env::var(key).expect(&format!("Invalid .env file, missing key '{}'!", key))
+}
+
 pub fn main() {
     let addr = "127.0.0.1:25580".parse().expect("Port already in use");
     println!("Listening on http://{}", addr);
 
-    let postgres_user = "arthur";
-    let postgres_pass = "";
-    let postgres_url = "no-proxy.xiler.net";
-    let postgres_database = "xiler";
-    let postgres_connection_string = format!("postgresql://{}:{}@{}:5432/{}", postgres_user, postgres_pass, postgres_url, postgres_database);
+    dotenv().expect(".env file not found");
+    let postgres_connection_string = format!("postgresql://{}:{}@{}:5432/{}",
+                                             get_env_var("POSTGRES_USER"),
+                                             get_env_var("POSTGRES_PASS"),
+                                             get_env_var("POSTGRES_URL"),
+                                             get_env_var("POSTGRES_DATABASE"));
 
     ServiceBuilder::new()
         .resource(Root)
