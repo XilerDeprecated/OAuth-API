@@ -41,6 +41,7 @@ impl_web! {
             let c: String = rand::thread_rng().sample_iter(&Alphanumeric).take(64).map(char::from).collect();
             let code: String = (&c).to_lowercase();
 
+            // TODO: GET URL FROM CONFIG
             // match redis::Client::open(&format!("redis://{}/", get_env_var("REDIS_URL"))) {
             match redis::Client::open("redis://127.0.0.1:6379/") {
                 Ok(client) => match client.get_connection() {
