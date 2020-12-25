@@ -5,6 +5,7 @@ use crate::types::code::{OAuthCode, TokenResponse};
 use crate::types::status::RequestStatus;
 use crate::types::token::CodeToken;
 use crate::utils::request::is_valid_code_request;
+use crate::utils::env::get_env_var;
 
 #[derive(Clone, Debug)]
 pub struct CodeResource {
@@ -40,18 +41,16 @@ impl_web! {
             let c: String = rand::thread_rng().sample_iter(&Alphanumeric).take(64).map(char::from).collect();
             let code: String = (&c).to_lowercase();
 
+            // match redis::Client::open(&format!("redis://{}/", get_env_var("REDIS_URL"))) {
             match redis::Client::open("redis://127.0.0.1:6379/") {
                 Ok(client) => match client.get_connection() {
                     Ok(mut conn) => {
-                        // let pass = match env::var("REDIS_PASS") {
-                        //     Ok(val) => val,
-                        //     Err(_) => "".to_string(),
-                        // };
-                        // let _: () = redis::cmd("AUTH").arg(pass).query(&mut conn).unwrap();
+                        let pass = get_env_var("REDIS_PASS");
+                        let _: () = redis::cmd("AUTH").arg(pass).query(&mut conn).unwrap();
                         let set: RedisResult<String> = conn.set_ex(&code, &body.user, 300);
                         match set {
                             Ok(_) => create_token_response("Successfully generated an auth code", 201, Some(OAuthCode { code })),
-                            Err(_) => return_server_error("Could not create code")
+                            Err(_) => return_server_error("Could not save code, please report this!")
                         }
                     }
                     Err(_) => return_server_error("Could not create connection with redis database")
