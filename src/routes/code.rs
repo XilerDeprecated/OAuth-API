@@ -11,6 +11,17 @@ pub struct CodeResource {
     pub(crate) connection_string: String,
 }
 
+fn create_token_response(message: &'static str, code: u16, data: Option<OAuthCode>) -> Result<TokenResponse, ()> {
+    Ok(TokenResponse {
+        status: RequestStatus { message, code },
+        data,
+    })
+}
+
+fn return_server_error(message: &'static str) -> Result<TokenResponse, ()> {
+    create_token_response(message, 500, None)
+}
+
 impl_web! {
     impl CodeResource {
         #[post("/code")]
@@ -39,39 +50,13 @@ impl_web! {
                         // let _: () = redis::cmd("AUTH").arg(pass).query(&mut conn).unwrap();
                         let set: RedisResult<String> = conn.set_ex(&code, &body.user, 300);
                         match set {
-                            Ok(_) => Ok(TokenResponse {
-                                status: RequestStatus {
-                                    message: "Successfully generated an auth code",
-                                    code: 201
-                                },
-                                data: Some(OAuthCode {
-                                    code: code
-                                })
-                            }),
-                            Err(_) => Ok(TokenResponse {
-                                status: RequestStatus {
-                                    message: "Could not create code",
-                                    code: 500
-                                },
-                                data: None
-                            })
+                            Ok(_) => create_token_response("Successfully generated an auth code", 201, Some(OAuthCode { code })),
+                            Err(_) => return_server_error("Could not create code")
                         }
                     }
-                    Err(_) => Ok(TokenResponse {
-                        status: RequestStatus {
-                            message: "Could not create connection with redis database",
-                            code: 500
-                        },
-                        data: None
-                    })
+                    Err(_) => return_server_error("Could not create connection with redis database")
                 },
-                Err(_) => Ok(TokenResponse {
-                    status: RequestStatus {
-                        message: "Could not create redis client",
-                        code: 500
-                    },
-                    data: None
-                })
+                Err(_) => return_server_error("Could not create redis client")
             }
         }
     }
