@@ -29,7 +29,7 @@ impl_web! {
         #[post("/token")]
         #[content_type("application/json")]
         fn get_token(&self, body: OAuthCode) -> Result<TokenResponse, ()> {
-            match redis::Client::open(&*format!("redis://{}/", get_env_var("REDIS_URL"))) {
+            match redis::Client::open("redis://127.0.0.1:6379/") {
                 Ok(client) => match client.get_connection() {
                     Ok(mut conn) => {
                         let pass = get_env_var("REDIS_PASS");
@@ -60,4 +60,3 @@ impl_web! {
         }
     }
 }
-
