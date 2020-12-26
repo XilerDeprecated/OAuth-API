@@ -9,3 +9,18 @@ pub struct RequestStatus {
 pub struct InvalidRequest {
     pub status: RequestStatus,
 }
+
+#[derive(Serialize, Debug)]
+pub struct StatusItem {
+    pub response_time: usize,
+    pub status: u16
+}
+
+#[derive(Debug, Response)]
+#[web(status = "200")]
+pub struct StatusData {
+    pub site: StatusItem,
+    pub api: StatusItem,
+    pub redis: StatusItem,
+    pub postgresql: StatusItem
+}

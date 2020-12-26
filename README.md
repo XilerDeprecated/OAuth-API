@@ -56,3 +56,30 @@ Returns:
   }
 }
 ```
+
+### `/status`
+
+JSON Request Body:
+* `token` | The private token which is set in the env
+
+Returns:
+```json
+{
+  "site": {
+    "response_time": 0,
+    "status": 200
+  },
+  "api": {
+    "response_time": 0,
+    "status": 200
+  },
+  "redis": {
+    "response_time": 0,
+    "status": 200
+  },
+  "postgresql": {
+    "response_time": 0,
+    "status": 200
+  }
+}
+```

@@ -41,6 +41,9 @@ pub fn main() {
         .resource(routes::code::CodeResource {
             connection_string: postgres_connection_string.clone()
         })
+        .resource(routes::status::StatusResource {
+            connection_string: postgres_connection_string.clone()
+        })
         .run(&addr)
         .unwrap()
 }
