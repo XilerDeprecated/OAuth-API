@@ -40,7 +40,6 @@ impl_web! {
                                 match Uuid::parse_str(&user) {
                                     Ok(uuid) => {
                                         let _ : () = conn.del(&body.code).unwrap();
-                                        // TODO: FETCH FROM DB
                                         create_token_response(
                                             "Successfully created a new token",
                                             0,
