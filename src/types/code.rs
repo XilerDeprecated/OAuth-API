@@ -1,6 +1,7 @@
 #[derive(Debug, Extract, Serialize)]
 pub struct OAuthCode {
     pub code: String,
+    pub app: String
 }
 
 #[derive(Debug, Response)]

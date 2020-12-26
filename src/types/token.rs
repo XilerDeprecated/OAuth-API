@@ -12,11 +12,11 @@ pub struct CodeToken {
 
 #[derive(Serialize, Debug)]
 pub struct TokenData {
-    pub access_token: &'static str,
-    pub app: &'static str,
-    pub refresh_token: &'static str,
-    pub token_type: i8,
-    pub expires_in: u32,
+    pub access_token: String,
+    pub app: String,
+    pub refresh_token: String,
+    pub token_type: i16,
+    pub expires_in: Option<u64>,
 }
 
 #[derive(Debug, Response)]

@@ -48,7 +48,7 @@ impl_web! {
                         let _: () = redis::cmd("AUTH").arg(pass).query(&mut conn).unwrap();
                         let set: RedisResult<String> = conn.set_ex(&code, &body.user, 300);
                         match set {
-                            Ok(_) => create_token_response("Successfully generated an auth code", 201, Some(OAuthCode { code })),
+                            Ok(_) => create_token_response("Successfully generated an auth code", 201, Some(OAuthCode { code, app: body.app })),
                             Err(_) => return_server_error("Could not save code, please report this!")
                         }
                     }

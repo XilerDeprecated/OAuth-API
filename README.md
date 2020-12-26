@@ -28,7 +28,8 @@ Returns:
     "message": "Successfully generated an auth code"
   },
   "data": {
-    "code": "chzmnb8n808nwnre4echvh6bvt86kuk1hrlrchvh77lzu43xqsb1fg93zb3ww9lj"
+    "code": "hhrublkdd1ytqmjnkddeeuxnsilw8mavroyrxfxqu0adikrcpf0ivchithkkcyjj",
+    "app": "83ed1"
   }
 }
 ```
@@ -37,6 +38,7 @@ Returns:
 
 JSON Request Body:
 * `code` | The code that has been received by code route
+* `app` | The application ID that is linked to the token
 
 Returns:
 ```json
@@ -46,11 +48,11 @@ Returns:
     "message": "Successfully created a new token"
   },
   "data": {
-    "access_token": "4eabde45ff5626562cf8e9dc7c0abf8f.9c8d9442383b05476310e0e#66c66b94",
+    "access_token": "d19ca43034765d2c9ca51f3364ac0dcc.ba54cdfb7a125c2cd13be08#2c23fc63",
     "app": "83ed1",
-    "refresh_token": "492e50f22d0941c54afea8465fe3813f.72f316244ee6fe236925c36#a2a9ffae",
+    "refresh_token": "3eb016cba372e82233103cbc46b1e87f.2d78f398d7e6ba2e6598f8e#6be110b2",
     "token_type": 1,
-    "expires_in": 604800
+    "expires_in": 599825
   }
 }
 ```

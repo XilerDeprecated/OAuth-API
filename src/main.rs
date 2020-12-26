@@ -35,9 +35,11 @@ pub fn main() {
 
     ServiceBuilder::new()
         .resource(Root)
-        .resource(routes::token::TokenResource)
+        .resource(routes::token::TokenResource {
+            connection_string: postgres_connection_string.clone()
+        })
         .resource(routes::code::CodeResource {
-            connection_string: postgres_connection_string
+            connection_string: postgres_connection_string.clone()
         })
         .run(&addr)
         .unwrap()
