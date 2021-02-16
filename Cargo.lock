@@ -123,12 +123,6 @@ dependencies = [
 
 [[package]]
 name = "bytes"
-version = "0.5.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0e4cec68f03f32e44924783795810fa50a7035d8c8ebe78580ad7e6c703fba38"
-
-[[package]]
-name = "bytes"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b700ce4376041dcd0a327fd0097c41095743c4c8af8887265942faf1100bd040"
@@ -1132,12 +1126,6 @@ dependencies = [
 
 [[package]]
 name = "pin-project-lite"
-version = "0.1.11"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c917123afa01924fc84bb20c4c03f004d9c38e5127e3c039bbf7f4b9c76a2f6b"
-
-[[package]]
-name = "pin-project-lite"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6b063f57ec186e6140e2b8b6921e5f1bd89c7356dda5b33acc5401203ca6131c"
@@ -1175,7 +1163,7 @@ dependencies = [
  "hmac",
  "md5",
  "memchr",
- "rand 0.8.0",
+ "rand 0.8.3",
  "sha2",
  "stringprep",
 ]
@@ -1773,7 +1761,7 @@ dependencies = [
  "libc",
  "memchr",
  "mio 0.7.6",
- "pin-project-lite 0.2.0",
+ "pin-project-lite",
 ]
 
 [[package]]
@@ -1855,7 +1843,7 @@ dependencies = [
  "parking_lot 0.11.1",
  "percent-encoding 2.1.0",
  "phf 0.8.0",
- "pin-project-lite 0.2.0",
+ "pin-project-lite",
  "postgres-protocol",
  "postgres-types",
  "socket2",
@@ -1978,7 +1966,7 @@ dependencies = [
  "futures-core",
  "futures-sink",
  "log 0.4.11",
- "pin-project-lite 0.2.0",
+ "pin-project-lite",
  "tokio 1.2.0",
 ]
 
@@ -2121,9 +2109,9 @@ dependencies = [
 
 [[package]]
 name = "uuid"
-version = "0.8.1"
+version = "0.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9fde2f6a4bea1d6e007c4ad38c6839fa71cbb63b6dbf5b595aa38dc9b1093c11"
+checksum = "bc5cf98d8186244414c848017f0e2676b3fcb46807f6668a97dfe67359a3c4b7"
 
 [[package]]
 name = "version_check"
